@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestingSample1ModelStoreContainer" CdmEntityContainer="TestingSample1Entities">
+    <FunctionImportMapping FunctionImportName="CountryAdd" FunctionName="TestingSample1Model.Store.CountryAdd" />
+    <FunctionImportMapping FunctionImportName="CountryDelete" FunctionName="TestingSample1Model.Store.CountryDelete" />
+    <FunctionImportMapping FunctionImportName="CountryGet" FunctionName="TestingSample1Model.Store.CountryGet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.CountryGet_Result">
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CountryUpdate" FunctionName="TestingSample1Model.Store.CountryUpdate" />
+    <FunctionImportMapping FunctionImportName="HobbyAdd" FunctionName="TestingSample1Model.Store.HobbyAdd" />
+    <FunctionImportMapping FunctionImportName="HobbyDelete" FunctionName="TestingSample1Model.Store.HobbyDelete" />
+    <FunctionImportMapping FunctionImportName="HobbyGet" FunctionName="TestingSample1Model.Store.HobbyGet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.HobbyGet_Result">
+          <ScalarProperty Name="HobbyId" ColumnName="HobbyId" />
+          <ScalarProperty Name="HobbyName" ColumnName="HobbyName" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="HobbyUpdate" FunctionName="TestingSample1Model.Store.HobbyUpdate" />
+    <FunctionImportMapping FunctionImportName="StateAdd" FunctionName="TestingSample1Model.Store.StateAdd" />
+    <FunctionImportMapping FunctionImportName="StateDelete" FunctionName="TestingSample1Model.Store.StateDelete" />
+    <FunctionImportMapping FunctionImportName="StateGet" FunctionName="TestingSample1Model.Store.StateGet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.StateGet_Result">
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="StateUpdate" FunctionName="TestingSample1Model.Store.StateUpdate" />
+    <FunctionImportMapping FunctionImportName="AdminProfileGet" FunctionName="TestingSample1Model.Store.AdminProfileGet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.AdminProfileGet_Result">
+          <ScalarProperty Name="AdminProfileId" ColumnName="AdminProfileId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UserLogin" FunctionName="TestingSample1Model.Store.UserLogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.UserLogin_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UserProfileAdd" FunctionName="TestingSample1Model.Store.UserProfileAdd" />
+    <FunctionImportMapping FunctionImportName="UserProfileGet" FunctionName="TestingSample1Model.Store.UserProfileGet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestingSample1Model.UserProfileGet_Result">
+          <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

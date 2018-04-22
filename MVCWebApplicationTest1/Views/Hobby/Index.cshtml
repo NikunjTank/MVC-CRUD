@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MVCWebApplicationTest1.Models.Hobby>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HobbyName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HobbyName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.HobbyId }) |
+                <a href="javascript:void(0)" class="deleteHobby" data-hobbyid="@item.HobbyId">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+            $('.deleteHobby').click(function (e) {
+                if (confirm('Are you sure you want to Delete?')) {
+                    e.preventDefault();
+                    hobbyId = $(this).data('hobbyid');
+                    console.log(hobbyId);
+                    $.ajax({
+                        url: '@Url.Action("Delete","Hobby")',
+                        type: "POST",
+                        data: JSON.stringify({ id: hobbyId }),
+                        contentType:"application/json",
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result <= 0) {
+                                toastr.error("Error in saving Hobby", "Hobby Create");
+                                return false;
+                            }
+
+                            window.location.href = '@Url.Action("Index", "Hobby")';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

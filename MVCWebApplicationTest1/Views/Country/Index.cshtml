@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MVCWebApplicationTest1.Models.Country>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="country-list">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Update", new { id = item.CountryId }) |
+                    <a href="javascript:void(0)" class="deleteCountry" data-countryid="@item.CountryId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section Scripts{
+    <script>
+        jQuery(document).ready(function () {
+
+            $("#country-list").DataTable({
+                "lengthMenu": [[2, 4, 6, -1], [2, 4, 6, "All"]]
+            });
+
+            if (window.sessionStorage.getItem("CountryAdd")) {
+                toastr.success(window.sessionStorage.getItem("CountryAdd") + " added successfully");
+                window.sessionStorage.removeItem("CountryAdd");
+            }
+
+            $('#country-list').on("click",'.deleteCountry', function () {
+                if (confirm('Are you sure you want to delete?')) {
+                    var countryId = $(this).data("countryid");
+                    $.ajax({
+                        url: '@Url.Action("DeleteCountry", "Country")',
+                        type: "POST",
+                        data: JSON.stringify({ id: countryId }),
+                        contentType: 'application/json',
+                        dataType: "json",
+                        success: function (result) {
+                            window.location.href = '@Url.Action("Index","Country")';
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

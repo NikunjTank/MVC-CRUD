@@ -1,0 +1,79 @@
+﻿@model MVCWebApplicationTest1.Models.UserLogin
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmLogin" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ReturnUrl)
+
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Username)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Password)
+            <div class="col-sm-3">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-2">
+                <a href="javscript:void(0)" id="lnkLogin" class="btn btn-default">Login</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+
+            $('form').submit(function () {
+                return false;
+            });
+
+            $('#lnkLogin').click(function (e) {
+                e.preventDefault();
+                if ($('#frmLogin').valid()) {
+                    $.ajax({
+                        //url: '@Url.Action("Login", "User")',
+                        url: '/User/Login',
+                        type: "POST",
+                        data: $('#frmLogin').serialize(),
+                        dataType: "JSON",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.Result <= 0) {
+                                toastr.error('Invalid Username or Password', 'Login');
+                                return false;
+                            }
+                            @*window.location.href = '@Url.Action("Index", "Dashboard",new { Area= "Owner" })';*@
+                            window.location.href = response.RedirectUrl;
+
+                        }
+                    });
+                }
+                else {
+                    toastr.error('Error on page', 'Login');
+                }
+                return false;
+            });
+        });
+    </script>
+}

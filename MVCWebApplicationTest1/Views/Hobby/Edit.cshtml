@@ -1,0 +1,72 @@
+﻿@model MVCWebApplicationTest1.Models.UpdateHobby
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmHobby" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Hobby</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.HobbyId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HobbyName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.HobbyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HobbyName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <a href="javascript:void(0)" id="lnkUpdate" class="btn btn-primary">Update</a>
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+            $('form').submit(function () {
+                return false;
+            });
+
+            $('#lnkUpdate').click(function (e) {
+                e.preventDefault();
+
+                if ($('#frmHobby').valid()) {
+                    $.ajax({
+                        url: '@Url.Action("Edit","Hobby")',
+                        type: "POST",
+                        data: $('#frmHobby').serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result <= 0) {
+                                toastr.error("Error in updating Hobby", "Hobby Update");
+                                return false;
+                            }
+                            window.location.href = '@Url.Action("Index","Hobby")';
+                        }
+                    });
+                }
+                else {
+                    toastr.error("Error in page", "Hobby Update");
+                }
+            });
+        });
+    </script>
+}

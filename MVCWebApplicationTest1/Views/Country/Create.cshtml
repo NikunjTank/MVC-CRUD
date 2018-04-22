@@ -1,0 +1,69 @@
+﻿@model MVCWebApplicationTest1.Models.AddCountry
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+@*@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmCountryAdd", onsubmit = "return false" }))*@
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmCountryAdd" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CountryName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CountryName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CountryName)
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-8">
+            <a href="javscript:void(0)" id="lnkSave" class="btn btn-default">Save</a>
+        </div>
+        <div class="col-md-2">
+            @Html.ActionLink("Back", "Index", "Country", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+
+            $('form').submit(function () {
+                return false;
+            });
+
+            $('#lnkSave').click(function (e) {
+                e.preventDefault();
+                if ($('#frmCountryAdd').valid()) {
+                    $.ajax({
+                        url: '@Url.Action("Create","Country")',
+                        type: "POST",
+                        data: $('#frmCountryAdd').serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result <= 0) {
+                                toastr.error('Error while adding Country', 'Country Add');
+                                return false;
+                            }
+
+                            window.sessionStorage.setItem("CountryAdd", $('#CountryName').val());
+                            window.location.href = '@Url.Action("Index","Country")';
+                        }
+                    });
+                }
+                else {
+                    toastr.error('Error on page', 'Country Add');
+                }
+                return false;
+            });
+        });
+    </script>
+}
+

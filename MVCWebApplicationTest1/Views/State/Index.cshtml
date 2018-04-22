@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MVCWebApplicationTest1.Models.State>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div>
+    @Html.ActionLink("Create", "Create")
+</div>
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.StateId)</th>
+            <th>@Html.DisplayNameFor(model => model.StateName)</th>
+            <th>@Html.DisplayNameFor(model => model.CountryId)</th>
+            <th>@Html.DisplayNameFor(model => model.CountryName)</th>
+            <th></th>
+        </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.StateId</td>
+                    <td>@item.StateName</td>
+                    <td>@item.CountryId</td>
+                    <td>@item.CountryName</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Update", new { id = item.StateId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,80 @@
+﻿@model MVCWebApplicationTest1.Models.AddState
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmState" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.StateName)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.StateName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StateName)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.Label("Country Name")
+            <div class="col-sm-3">
+                @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.Countries, " -- Select --", new { @class = "fomr-control" })
+                @Html.ValidationMessageFor(model => model.CountryId)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="col-sm-2">
+                <a href="javscript:void(0)" id="lnkSave" class="btn btn-default">Save</a>
+            </div>
+            <div class="col-sm-2">
+                @Html.ActionLink("Back", "Index", "State", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+            $("form").submit(function () {
+                return false;
+            });
+
+            $('#lnkSave').click(function (e) {
+                e.preventDefault();
+                if ($('#frmState').valid()) {
+                    $.ajax({
+                        url: '@Url.Action("Create","State")',
+                        type: "POST",
+                        data: $('#frmState').serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result <= 0) {
+                                toastr.error('Error while adding State', 'State Add');
+                                return false;
+                            }
+
+                            window.sessionStorage.setItem("StateAdd", $('#StateName').val());
+                            window.location.href = '@Url.Action("Index","State")';
+                        }
+                    });
+                }
+                else {
+                    toastr.error('Error on page', 'State Add');
+                }
+                return false;
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,118 @@
+﻿@model MVCWebApplicationTest1.Models.AddUserProfile
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Register</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmRegister" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Username)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Password)
+            <div class="col-sm-3">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.ConfirmPassword)
+            <div class="col-sm-3">
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.FirstName)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.LastName)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Phone)
+            <div class="col-sm-3">
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.Label("Country Name")
+            <div class="col-sm-3">
+                @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.Countries, " -- Select --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryId)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-2">
+                <a href="javscript:void(0)" id="lnkRegister" class="btn btn-default">Register</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+
+            $('form').submit(function () {
+                return false;
+            });
+
+            $('#lnkRegister').click(function (e) {
+                e.preventDefault();
+                if ($('#frmRegister').valid()) {
+                    $.ajax({
+                        url: '@Url.Action("Register", "User")',
+                        type: "POST",
+                        data: $('#frmRegister').serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result <= 0) {
+                                toastr.error('Error while registering User', 'Register');
+                                return false;
+                            }
+
+                            window.location.href = '@Url.Action("Login","User")';
+                        }
+                    });
+                }
+                else {
+                    toastr.error('Error on page', 'Register');
+                }
+                return false;
+            });
+        });
+    </script>
+}

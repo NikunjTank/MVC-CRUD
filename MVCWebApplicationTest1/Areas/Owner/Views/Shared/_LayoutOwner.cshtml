@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        <ul>
+            <li>@Html.ActionLink("UserProfile", "UserProfile", null, new { area = "Owner", controller = "Dashboard" })</li>
+            <li>@Html.ActionLink("ChangePassword", "ChangePassword", null, new { area = "Owner", controller = "Dashboard" })</li>
+            <li>@Html.ActionLink("Logout", "Logout", null, new { area = "Owner", controller = "Dashboard" })</li>            
+        </ul>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
